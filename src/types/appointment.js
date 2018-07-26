@@ -19,4 +19,12 @@ export default {
   },
   getDuration: ({ services }) =>
     services.map(({ duration }) => duration).reduce((sum, d) => sum + d, 0),
+  calcOverlaps: appointments =>
+    appointments.map((appointment, i) => {
+      return {
+        overlaps: 1,
+        position: 1,
+        ...appointment,
+      };
+    }),
 };

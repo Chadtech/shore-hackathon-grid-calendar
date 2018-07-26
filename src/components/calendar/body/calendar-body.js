@@ -7,7 +7,7 @@ import Appointment from '../../../types/appointment';
 import Utils from '../../../utils';
 
 const timeInterval = 15;
-// in minutes --^
+// in minutes -^
 const daysInWeek = 7;
 const numberOfRows = 24 * (60 / timeInterval);
 
@@ -25,15 +25,11 @@ const Container = styled.div`
   border: 2px solid ${styles.gray['300']};
 `;
 
-const BackgroundContainer = styled.div`
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  z-index: 1;
-`;
+const TimeCell = Cell.extend``;
 
-const AppointmentContainer = styled.div`
+// BACKGROUND //
+
+const BackgroundContainer = styled.div`
   position: absolute;
   top: 0px;
   left: 0px;
@@ -43,20 +39,51 @@ const AppointmentContainer = styled.div`
 
 const BackgroundGrid = Grid.extend``;
 
-const AppointmentGrid = Grid.extend``;
-
 const BackgroundCell = Cell.extend`
   border: 1px solid ${styles.gray['300']};
 `;
 
-const AppointmentCell = Cell.extend`
-  background-color: ${props => props.c};
-  overflow: hidden;
+// APPOINTMENTS //
+
+const AppointmentGrid = Grid.extend``;
+
+const AppointmentGridContainer = styled.div`
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  z-index: 1;
 `;
 
-const TimeCell = Cell.extend``;
+const AppointmentCell = Cell.extend`
+  overflow: hidden;
+  position: relative;
+`;
 
 const AppointmentText = styled.p``;
+
+const AppointmentContainer = styled.div`
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  background-color: ${props => props.c};
+  width: calc(${props => String(Math.floor(100 / props.overlaps))}% - 10px);
+  height: 100%;
+`;
+
+const AppointmentBody = styled.div`
+  padding: 5px;
+`;
+
+const appointmentServiceString = appointment => {
+  if (appointment.services.length === 0) {
+    return '';
+  }
+  if (appointment.services.length === 1) {
+    return appointment.services[0].name;
+  }
+  return [String(appointment.services.length), 'services'].join(' ');
+};
 
 const appointmentView = appointment => (
   <AppointmentCell
@@ -64,21 +91,30 @@ const appointmentView = appointment => (
     row={Math.floor((appointment.startsAt % (24 * 60)) / timeInterval)}
     w={1}
     h={Math.floor(Appointment.getDuration(appointment) / timeInterval)}
-    c={appointment.color}
-  />
+  >
+    <AppointmentContainer
+      c={appointment.color}
+      overlaps={appointment.overlaps}
+      position={appointment.position}
+    >
+      <AppointmentBody>
+        <AppointmentText>
+          {appointmentServiceString(appointment)}
+        </AppointmentText>
+      </AppointmentBody>
+    </AppointmentContainer>
+  </AppointmentCell>
 );
-// {
-//   /* <AppointmentText> */
-// }
-// // {appointment.services[0] && appointment.services[0].name}
-// {
-//   /* </AppointmentText> */
-// }
+
+// CALENDAR //
+
 class CalendarBody extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      appointments: [...Array(20)].map(() => Appointment.random()),
+      appointments: Appointment.calcOverlaps(
+        [...Array(90)].map(() => Appointment.random()),
+      ),
     };
   }
 
@@ -100,22 +136,23 @@ class CalendarBody extends Component {
             )}
           </BackgroundGrid>
         </BackgroundContainer>
-        <AppointmentContainer>
+        <AppointmentGridContainer>
           <AppointmentGrid>
             {this.state.appointments.map(appointmentView)}
-            {[...Array(numberOfRows).keys()].map(i => (
-              <TimeCell column={0} row={i} w={1} h={1}>
-                {[
-                  Utils.padLeftZero(
-                    String(Math.floor((i * timeInterval) / 60)),
-                  ),
-                  ':',
-                  Utils.padLeftZero(String((i * timeInterval) % 60)),
-                ].join('')}
-              </TimeCell>
-            ))}
+            {[...Array(numberOfRows).keys()].map(i => {
+              const time = i * timeInterval;
+              return (
+                <TimeCell column={0} row={i} w={1} h={1}>
+                  {[
+                    Utils.padLeftZero(String(Math.floor(time / 60))),
+                    ':',
+                    Utils.padLeftZero(String(time % 60)),
+                  ].join('')}
+                </TimeCell>
+              );
+            })}
           </AppointmentGrid>
-        </AppointmentContainer>
+        </AppointmentGridContainer>
       </Container>
     );
   }
