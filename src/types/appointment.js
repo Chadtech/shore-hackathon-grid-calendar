@@ -11,7 +11,9 @@ export default {
   random: () => {
     return {
       color: Utils.randomColor(),
-      services: [...Array(Utils.randomInt(3)).keys()].map(i => services[i]),
+      services: [...Array(Utils.randomInt(3)).keys()].map(
+        i => services[Utils.randomInt(4)],
+      ),
       startsAt: Utils.randomInt(7 * 24 * 60),
     };
   },

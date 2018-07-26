@@ -3,21 +3,19 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 import CalendarDataAxis from './date-axis';
-import CalendarTimeAxis from './time-axis';
+import styles from '../../../styles/styles';
 
-const Container = styled.div``;
+const Container = styled.div`
+  background-color: ${styles.white};
+`;
 
 class CalendarNav extends Component {
-
-
   render() {
-
-    return <Container>
-
-        <CalendarDataAxis/>
-        <CalendarTimeAxis/>
-
-    </Container>;
+    return (
+      <Container>
+        <CalendarDataAxis />
+      </Container>
+    );
   }
 }
 

@@ -3,16 +3,15 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const WeekContainer = styled.div`
-  position:fixed;
+  position: fixed;
   top: 0;
   width: 100%;
-  display:grid;
+  display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-auto-flow: dense;
-  padding: 1rem 2rem;
   background: white;
-  padding-left:10rem;
-  overflow:hidden;
+  padding-left: 60px;
+  overflow: hidden;
   @media (max-width: 768px) {
     grid-template-columns: repeat(7, 1fr);
     min-width: 700px;
@@ -21,51 +20,51 @@ const WeekContainer = styled.div`
 `;
 
 const WeekDay = styled.div`
-  font-size: 0.70rem;
-  font-weight:700;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding-top: 16px;
+  padding-bottom: 16px;
 `;
 
-var weeklist= [
+var weeklist = [
   {
-      date: "Mo, 23/07"
+    date: 'Mo, 23/07',
   },
   {
-      date: "Tue, 24/07"
+    date: 'Tue, 24/07',
   },
   {
-      date: "Wed, 25/07"
+    date: 'Wed, 25/07',
   },
   {
-      date: "Thu, 26/07"
+    date: 'Thu, 26/07',
   },
   {
-      date: "Fri, 27/07"
+    date: 'Fri, 27/07',
   },
   {
-      date: "Sat, 28/07"
+    date: 'Sat, 28/07',
   },
   {
-      date: "Sun, 29/07"
-  }
+    date: 'Sun, 29/07',
+  },
 ];
+
 class CalendarDataAxis extends Component {
-
-
   render() {
-    //console.log(weeklist);
-    //const weekItems = weeklist.map((day) => <week-day>{day.date}</week-day>);
-    const weekItems = weeklist.map((day) => <WeekDays date={day.date}/>);
+    const weekItems = weeklist.map(day => <WeekDays date={day.date} />);
 
-    return <WeekContainer>
-          {weekItems}
-        </WeekContainer>;
+    return <WeekContainer>{weekItems}</WeekContainer>;
   }
 }
 
-
 class WeekDays extends React.Component {
   render() {
-    return <WeekDay className="weekday"><a href="">{this.props.date}</a></WeekDay>
+    return (
+      <WeekDay className="weekday">
+        <a href="">{this.props.date}</a>
+      </WeekDay>
+    );
   }
 }
 

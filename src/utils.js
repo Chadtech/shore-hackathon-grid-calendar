@@ -18,4 +18,5 @@ const randomColor = () =>
 export default {
   randomColor,
   randomInt,
+  padLeftZero,
 };
