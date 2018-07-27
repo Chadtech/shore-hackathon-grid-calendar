@@ -70,8 +70,7 @@ const AppointmentCell = Cell.extend`
 const AppointmentText = styled.p``;
 
 const calculateLeft = (position, neighbors) => {
-  return `calc(${(position / (neighbors + 1)) * 100}% - ${10 /
-    (neighbors + 1)})`;
+  return (position / (neighbors + 1)) * 100;
 };
 
 const AppointmentContainer = styled.div`
@@ -81,20 +80,21 @@ const AppointmentContainer = styled.div`
   background-color: ${props => props.c};
   box-sizing: border-box;
   border: 1px solid #000000;
+  border-radius: 2px;
+  overflow: hidden;
   width: calc(
-    ${props =>
-      String(
-        Math.floor(100 / (props.neighbors + 1) - 10 / (props.neighbors + 1)),
-      )}% - 10px
+    ${props => String(Math.floor(100 / (props.neighbors + 1)))}% - 10px
   );
   transform: scale(1);
   transition: transform 75ms ease-in, border 75ms ease-in;
   height: 100%;
-  margin-left: ${props => 10 * props.inset}px;
+  :first-child {
+    margin-left: ${props => 10 * props.inset}px;
+  }
   ${props => (props.isforefront === 'true' ? 'z-index: 9000000;' : '')}
   cursor: pointer;
   :hover {
-    border: 2px solid #404040;
+    border: 1px solid #404040;
     transform: scale(1.2);
   }
 `;
@@ -209,7 +209,7 @@ const appointmentView = (forefrontAppointment, onClick) => (appointment, i) => (
 
 const randomAppointments = () =>
   Utils.concat(
-    Utils.range(400)
+    Utils.range(300)
       .map(() => Appointment.random())
       .map(giveDayAndInterval)
       .reduce(intoDays, Utils.repeat(() => [], daysInWeek + 1))

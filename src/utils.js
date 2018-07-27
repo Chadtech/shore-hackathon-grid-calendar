@@ -10,9 +10,9 @@ const padLeftZero = str => {
 const randomColor = () =>
   [
     '#',
-    padLeftZero(randomInt(255).toString(16)),
-    padLeftZero(randomInt(255).toString(16)),
-    padLeftZero(randomInt(255).toString(16)),
+    padLeftZero((128 + randomInt(128)).toString(16)),
+    padLeftZero((128 + randomInt(128)).toString(16)),
+    padLeftZero((128 + randomInt(128)).toString(16)),
   ].join('');
 
 const range = size => [...Array(size).keys()];

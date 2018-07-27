@@ -6,6 +6,10 @@ const services = [
   { name: 'burger or indische', duration: 45 },
   { name: 'uberprufen', duration: 45 },
   { name: 'baseball lessons', duration: 90 },
+  { name: 'break', duration: 10 },
+  { name: 'present hackathon project', duration: 5 },
+  { name: 'thank milos for staging', duration: 30 },
+  { name: ':^)', duration: 15 },
 ];
 
 const getDuration = ({ services }) =>
@@ -18,7 +22,7 @@ export default {
   random: () => {
     return {
       color: Utils.randomColor(),
-      services: Utils.range(Utils.randomInt(3) + 1).map(
+      services: Utils.range(Utils.randomInt(2) + 1).map(
         i => services[Utils.randomInt(services.length)],
       ),
       startsAt: Utils.randomInt(7 * 24 * 60),
