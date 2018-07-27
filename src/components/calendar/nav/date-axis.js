@@ -58,12 +58,12 @@ const weekList = [...Array(7).keys()].map(i => {
   ].join('');
 });
 
-class CalendarDataAxis extends Component {
+class CalendarDateAxis extends Component {
   render() {
     return (
       <Grid>
         {weekList.map((day, i) => (
-          <Cell row={0} column={i + 1} w={1} h={1}>
+          <Cell key={i} row={0} column={i + 1} w={1} h={1}>
             <WeekDay>{day}</WeekDay>
           </Cell>
         ))}
@@ -72,4 +72,4 @@ class CalendarDataAxis extends Component {
   }
 }
 
-export default CalendarDataAxis;
+export default CalendarDateAxis;
